@@ -1,0 +1,56 @@
+# Shared settings. Profile files (application-<profile>.yml) override these.
+spring:
+  application:
+    name: creditlens-api
+  profiles:
+    default: dev                      # local runs use 'dev' unless told otherwise
+  datasource:
+    # In-memory H2 that pretends to be PostgreSQL. Data resets on every restart.
+    url: jdbc:h2:mem:creditlens;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    username: sa
+    password: ""
+  jpa:
+    open-in-view: false               # no lazy-loading surprises in controllers
+    hibernate:
+      ddl-auto: none                  # Flyway owns the schema, Hibernate never changes tables
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+  flyway:
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+  error:
+    include-stacktrace: never         # never leak internals to clients
+
+creditlens:
+  cors:
+    allowed-origins: http://localhost:4200
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: CreditLens API
+    rules-version: 2026.11-v1
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  pattern:
+    level: "%5p [cid=%X{correlationId:-none}]"
+  level:
+    com.creditlens: INFO

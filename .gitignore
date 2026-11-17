@@ -1,0 +1,21 @@
+# Java / Maven
+backend/target/
+*.class
+*.log
+
+# Node / Angular (frontend has its own .gitignore too)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# IDEs and OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local secrets: never commit these
+.env
+*.env
+.local-env.ps1

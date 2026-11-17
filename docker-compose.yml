@@ -1,0 +1,23 @@
+# Optional: a real PostgreSQL 17 for the 'postgres' profile.
+#   docker compose up -d
+#   cd backend && mvn spring-boot:run -Dspring-boot.run.profiles=postgres
+# Credentials here are for local development only.
+services:
+  postgres:
+    image: postgres:17
+    container_name: creditlens-db
+    environment:
+      POSTGRES_DB: creditlens
+      POSTGRES_USER: creditlens
+      POSTGRES_PASSWORD: creditlens_dev_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - creditlens-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U creditlens"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  creditlens-data:
